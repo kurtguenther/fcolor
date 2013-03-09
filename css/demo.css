@@ -14,6 +14,11 @@
 	display:none;
 }
 
+.profile-name{
+    font-weight:bold;
+    color:#fff;
+}
+
 /* General Demo Style */
 body {
 	font-family: 'Lato', 'Myriad Pro','Trebuchet MS', sans-serif;

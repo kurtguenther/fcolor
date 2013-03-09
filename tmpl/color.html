@@ -36,7 +36,7 @@
 	    			<section class="main">
 
 	    				<div id="ri-grid" class="ri-grid ri-grid-size-3">
-	    					<img class="ri-loading-image" src="images/loading.gif"/>
+	    					<img class="ri-loading-image" src="/images/loading.gif"/>
 	    					
 					<ul id="ri-ul">
 						
@@ -114,13 +114,13 @@
 	
 		</script>
 		<script type="text/javascript">
-		$(document).ready(function(){    	
+		var do_stuff = function() {    	
 			
 				$('.profile-image').each(function(){
 					rgb=getAverageRGB($(this)[0]);
 					d='<div class="tile" id="tile-' + $(this).attr('id') + '" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b +');"></div>';
 					i='<li><a href="#"><img id='+ $(this).attr('id') +' class="profile-image" src="'+ $(this)[0].src +'"/></a>'+d+'</li>';
-					
+
 					//$(this).parent().append(d);
 					$('#ri-ul').append(i);
 				});
@@ -166,7 +166,7 @@
 
 							 							
 			
-		});
+		};
 		</script>
     </body>
 </html>	

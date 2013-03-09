@@ -50,7 +50,7 @@
 
 								</section>
 			
-					        
+			       
 			<div><img id="profile-01" class="profile-image" src="/images/185437_10151109045697390_1652328156_n.jpg"/></div>
 			<div><img id="profile-02" class="profile-image" src="/images/196749_10151126199037390_872299319_n.jpg"/></div>
 			<div><img id="profile-03" class="profile-image" src="/images/198272_10150985111867390_264302123_n.jpg"/></div>
@@ -102,6 +102,8 @@
 			<div><img id="profile-49" class="profile-image" src="/images/555697_10151095923782390_555825330_n.jpg"/></div>
 			<div><img id="profile-50" class="profile-image" src="/images/564535_10151060019232390_185420994_n.jpg"/></div>
 			<div><img id="profile-51" class="profile-image" src="/images/577296_10150992096757390_93666049_n.jpg"/></div>
+			<div id="facebook_container">
+			</div>
         </div>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		
@@ -116,8 +118,9 @@
 		<script type="text/javascript">
 		var do_stuff = function() {    	
 			
-				$('.profile-image').each(function(){
+				$('.profile-image.facebook-image').each(function(){
 					rgb=getAverageRGB($(this)[0]);
+					console.log(rgb);
 					d='<div class="tile" id="tile-' + $(this).attr('id') + '" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b +');"></div>';
 					i='<li><a href="#"><img id='+ $(this).attr('id') +' class="profile-image" src="'+ $(this)[0].src +'"/></a>'+d+'</li>';
 
@@ -132,35 +135,35 @@
 									maxStep : 2,
 									interval : 2000,
 									w1024 : {
-										rows : 5,
-										columns : 6
+										rows : 4,
+										columns : 8
 									},
 									w768 : {
-										rows : 5,
-										columns : 5
+										rows : 4,
+										columns : 8
 									},
 									w480 : {
-										rows : 6,
-										columns : 4
+										rows : 4,
+										columns : 8
 									},
 									w320 : {
-										rows : 7,
-										columns : 4
+										rows : 4,
+										columns : 8
 									},
 									w240 : {
-										rows : 7,
-										columns : 3
+										rows : 4,
+										columns : 8
 									},
 								} );
 			
 							
-							setInterval(function(){
-								$('.tile').each(function(index,ui){
-								    $(this).delay(index*50).fadeIn(function(){
-								        $('#' + $(this).attr('id')).toggle();
-								    });
-								});
-							},5000);
+							// setInterval(function(){
+							// 	$('.tile').each(function(index,ui){
+							// 	    $(this).delay(index*50).fadeIn(function(){
+							// 	        $('#' + $(this).attr('id')).toggle();
+							// 	    });
+							// 	});
+							// },5000);
 								
 							
 
@@ -198,7 +201,7 @@
 							} );
 			
 			//Do the load later
-			setTimeout(do_stuff, 1000);
+			//setTimeout(do_stuff, 1000);
 		});
 		</script>
     </body>
@@ -210,7 +213,7 @@
   window.fbAsyncInit = function() {
     // init the FB JS SDK
     FB.init({
-      appId      : '253746221427724', // App ID from the App Dashboard
+      appId      : '277386932393277', // App ID from the App Dashboard
       status     : true, // check the login status upon init?
       cookie     : true, // set sessions cookies to allow your server to access the session?
       xfbml      : true  // parse XFBML tags on this page?
@@ -219,7 +222,7 @@
     // Additional initialization code such as adding Event Listeners goes here
     // *** here is my code ***
     if (typeof facebookInit == 'function') {
-        //facebookInit();
+        facebookInit();
     }
   };
 
@@ -241,10 +244,58 @@
 	   FB.login(function(response) {
 	      if (response.authResponse) {
 	        var access_token =   FB.getAuthResponse()['accessToken'];
+
+			//check that we're in.
 	        console.log('Access Token = '+ access_token);
 	        FB.api('/me', function(response) {
 	        console.log('Good to see you, ' + response.name + '.');
+	        console.log('We are in.');	
 	        });
+	
+	
+			FB.api('/me/friends', function(response)
+			{
+				//Let's just do up to 20 for now
+				var PAGE_LIMIT = 32;
+				var count = response.data.length;
+				var page = Math.min(count, PAGE_LIMIT);
+				
+
+				var facebook_container = $('#facebook_container');
+				for(var i = 0; i<page; i++)
+				{
+					var profile_id = response.data[i]['id'];
+					
+					if(profile_id && profile_id != '')
+					{
+						var img = $('<img class="profile-image facebook-image"/>');
+						img.attr('src', '/get/img/?img_url=' + escape('http://graph.facebook.com/' + profile_id + '/picture?width=100&height=100'));
+						facebook_container.append(img);
+					}
+					else
+					{
+						console.log('skipping user:'+ response.data[i])
+					}
+				}
+				
+				// do_stuff();
+				
+				// var avg_url = '/avg?ids=' + ids.join(',');
+				// 				console.log('requesting: ' +  avg_url);
+				// 				
+				// 				$.ajax({
+				// 					url: avg_url,
+				// 					success: function(data)
+				// 					{
+				// 						console.log('winn');
+				// 					},
+				// 					error: function(jqXHR, textStatus, errorThrown)
+				// 					{
+				// 						console.log('errrrrrrr');
+				// 					}
+				// 				});
+			});
+	
 	      } else {
 	        console.log('User cancelled login or did not fully authorize.');
 	      }

@@ -14,10 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+import logging
 import webapp2
 import os
+import json
 
 from google.appengine.ext.webapp import template
+from google.appengine.api import urlfetch
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -25,6 +29,33 @@ class MainHandler(webapp2.RequestHandler):
         tmpl_path = os.path.join(os.path.dirname(__file__), './tmpl/color.html')
         self.response.out.write(template.render(tmpl_path, {}))
 
+class ColorAvgHandler(webapp2.RequestHandler):
+    def get(self):
+        ids_str = self.request.get('ids')
+        ids = ids_str.split(',')
+        
+        results = []
+        for id in ids:
+            results.append({'id': id, 'rgb': '004400'})
+            
+        self.response.out.write(json.dumps({'results': results}))
+        
+class ImageProxy(webapp2.RequestHandler):
+    def get(self):
+        url = self.request.get('img_url')
+        
+        logging.info('fetching url: %s' % url);
+        result = urlfetch.fetch(url)
+        
+        if result.status_code == 200:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(result.content)
+        else:
+            self.response.set_status(500)
+            self.response.out.write(json.dumps({'error': 'fail'}))
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/avg/?', ColorAvgHandler),
+    ('/get/img/?', ImageProxy)
 ], debug=True)

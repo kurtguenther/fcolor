@@ -11,6 +11,22 @@ Util.getParameterByName = function(name)
   else
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+Util.componentToHex = function(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+};
+
+Util.rgbToHex = function (r, g, b) {
+    return "#" + Util.componentToHex(r) + Util.componentToHex(g) + Util.componentToHex(b);
+};
+
+Util.colorName = function(hex){
+	return ntc.name(hex)[1];
+	  // n_rgb        = n_match[0]; // RGB value of closest match
+	  // n_name       = n_match[1]; // Text string: Color name
+	  // n_exactmatch = n_match[2]; // True if exact color match	
+};
    
 Util.getAverageRGB = function(imgEl) {
 

@@ -36,9 +36,15 @@ App.loadFriends = function(data) {
 			 	console.log(this);
 					
 				rgb = Util.getAverageRGB($(this)[0]);
+				
+				var hex = Util.rgbToHex(rgb.r, rgb.g, rgb.b);
+				var name = Util.colorName(hex);
+								
 				console.log(rgb);
 		
-				d = '<div class="tile" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ');"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span></div>';
+				d = '<div class="tile" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ');"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span><br/>'+
+				'<span class="color-name">'+name+'</span>'
+				+'</div>';
 			
 				$(this)
 					.parent()

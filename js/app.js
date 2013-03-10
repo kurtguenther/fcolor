@@ -16,7 +16,7 @@ App.start = function() {
 		App.gridify(); 
 		App.hideLoading(); 
 		App.showContainer();
-	}, 2000);
+	}, 0);
 
 };
 
@@ -118,8 +118,9 @@ App.loadFriends = function(data) {
 					.parent()
 					.attr('data-l', hsl.l);
 					
-				
-				
+
+    			//updated the sort on this
+                $('#container').isotope('updateSortData', $('#container').find('.item'));
 			});
 			
 			var div = $('<div class="item"></div>');
@@ -137,6 +138,7 @@ App.loadFriends = function(data) {
     			// might run into race conditions	
                 var $newItems = div;
     			$('#container').isotope('insert', $newItems);
+    			console.log('calling insert');
             }
 
 		} else {
@@ -145,6 +147,7 @@ App.loadFriends = function(data) {
 	}
 	
 	App.currentIndex += page;
+	
 };
 
 App.hideContainer = function(){

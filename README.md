@@ -8,4 +8,4 @@ or like [Something Healthy] + [Something healthy]
 
 # Notes
 
-If you load the page with http://localhost:9090/?testMode=true#, it'll load the images in the images/med directory.  
+If you load the page with http://localhost:9090/?testMode=true#, it'll load the images in the images/med directory.  It should do this - http://www.youtube.com/watch?v=VUMJNdVCasY&feature=youtu.be .

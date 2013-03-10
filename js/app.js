@@ -37,6 +37,8 @@ App.loadFriends = function(data) {
 					
 				rgb = Util.getAverageRGB($(this)[0]);
 				
+				var hsl = Util.rgbToHsl(rgb.r, rgb.g, rgb.b);
+				
 				var hex = Util.rgbToHex(rgb.r, rgb.g, rgb.b);
 				var name = Util.colorName(hex);
 								
@@ -81,6 +83,18 @@ App.loadFriends = function(data) {
 				$(this)
 					.parent()
 					.attr('data-b', rgb.b);
+					
+				$(this)
+					.parent()
+					.attr('data-h', hsl.h);
+
+				$(this)
+					.parent()
+					.attr('data-s', hsl.s);
+
+				$(this)
+					.parent()
+					.attr('data-l', hsl.l);
 					
 				
 				
@@ -156,6 +170,14 @@ App.gridify = function() {
 				g = parseFloat($elem.attr('data-g'));
 				b = parseFloat($elem.attr('data-b'));
 				return b / ((r + g + b) / 3.0);
+			},
+			hue: function($elem) {
+				h = parseFloat($elem.attr('data-h'));
+				return h;
+			},
+			sat: function($elem) {
+				s = parseFloat($elem.attr('data-s'));
+				return s;
 			}
 		}
 	});

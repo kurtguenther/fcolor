@@ -66,10 +66,6 @@ App.loadFriends = function(data) {
                 
                 d.append(pn);
                 d.append(cn);
-				
-                // '<div class="tile" style="width:100%; height: 100%; background-color:;"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span><br/>'+
-                // '<span class="color-name">'+name+'</span>'
-                // +'</div>';
 			
 				$(this)
 					.parent()
@@ -137,7 +133,7 @@ App.loadFriends = function(data) {
     			// cfriel - can do this to asynchronously add items to isotope
     			// might run into race conditions	
                 var $newItems = div;
-    			$('#container').isotope( 'insert', $newItems );    
+    			$('#container').isotope('insert', $newItems);
             }
 
 		} else {

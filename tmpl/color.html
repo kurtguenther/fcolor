@@ -154,36 +154,7 @@
 
 <div id="fb-root"></div>
 </body>
-<script>
-  window.fbAsyncInit = function() {
-    // init the FB JS SDK
-    FB.init({
-      appId      : '277386932393277', // App ID from the App Dashboard
-      status     : true, // check the login status upon init?
-      cookie     : true, // set sessions cookies to allow your server to access the session?
-      xfbml      : true  // parse XFBML tags on this page?
-    });
-
-    // Additional initialization code such as adding Event Listeners goes here
-    // *** here is my code ***
-    if (typeof facebookInit == 'function') {
-        facebookInit();
-    }
-  };
-
-  // Load the SDK's source Asynchronously
-  // Note that the debug version is being actively developed and might 
-  // contain some type checks that are overly strict. 
-  // Please report such bugs using the bugs tool.
-  (function(d, debug){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document, /*debug*/ false));
-   
-   
+<script>   
    function facebookInit(){
 	   
 	   FB.login(function(response) {
@@ -296,7 +267,7 @@
            count = 0;
 
        if (!context) {
-		   alert('No context');
+		   console.log('no context');
            return defaultRGB;
        }
 
@@ -309,7 +280,7 @@
            data = context.getImageData(0, 0, width, height);
        } catch(e) {
            /* security error, img on diff domain */
-		   alert(e);
+		   console.log(e);
            return defaultRGB;
        }
 
@@ -330,6 +301,49 @@
        return rgb;
 
    }
+
+  window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+      appId      : '277386932393277', // App ID from the App Dashboard
+      status     : true, // check the login status upon init?
+      cookie     : true, // set sessions cookies to allow your server to access the session?
+      xfbml      : true  // parse XFBML tags on this page?
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
+    // *** here is my code ***
+    if (typeof facebookInit == 'function') {
+		console.log('calling facebook init');
+        facebookInit();
+		console.log('called facebook init');
+    }
+  };
+
+  // Load the SDK's source Asynchronously
+  // Note that the debug version is being actively developed and might 
+  // contain some type checks that are overly strict. 
+  // Please report such bugs using the bugs tool.
+  (function(d, debug){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+     ref.parentNode.insertBefore(js, ref);
+	 console.log('loading facebook');
+   }(document, /*debug*/ false));
+
+	function safariHack()
+	{
+		facebookInit();
+	}
+
+	$(document).ready(function(){
+		if($.browser.safari)
+		{
+			setTimeout(safariHack, 1000);
+		}
+	});
 </script>
 
 

@@ -104,7 +104,8 @@ App.loadFriends = function(data) {
 
 			div.append(img);
 
-			img.attr('src', data[i].src);
+            var proxy_src = '/get/img/?img_url=' + escape('http://graph.facebook.com/' + profile_id + '/picture?width=100&height=100')
+			img.attr('src', proxy_src);
 
 			container.append(div);
 

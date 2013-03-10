@@ -53,7 +53,7 @@ function facebookInit() {
 				console.log('We are in.');
 			});
 
-			FB.api('/me/friends', App.showFriends(Facebook.parseData(response)));
+			FB.api('/me/friends',function(response){App.loadFriends(response.data);});
 
 		} else {
 			console.log('User cancelled login or did not fully authorize.');
@@ -89,4 +89,6 @@ Facebook.parseData = function(response) {
 			console.log('skipping user:' + response.data[i])
 		}
 	}
+	
+	return 
 };

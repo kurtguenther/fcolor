@@ -1,3 +1,6 @@
+# pyc file
+*.pyc
+
 # C extensions
 *.so
 

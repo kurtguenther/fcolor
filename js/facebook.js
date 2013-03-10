@@ -1,17 +1,5 @@
 var Facebook = {};
 
-function safariHack()
-{
-	facebookInit();
-}
-
-$(document).ready(function(){
-	if($.browser.safari)
-	{
-		setTimeout(safariHack, 1000);
-	}
-});
-
 window.fbAsyncInit = function() {
 	FB.init({
 		appId: '277386932393277',

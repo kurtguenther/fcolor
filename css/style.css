@@ -60,6 +60,14 @@
 	top: -103px;
 }
 
+.color-name{
+	font-size: 8pt;
+        font-weight:bold;
+        color:#fff;
+        margin-left: 5px;
+        margin-top: 5px;
+}
+
 #loading
 {
 	position: absolute;

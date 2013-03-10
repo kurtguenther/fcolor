@@ -52,9 +52,24 @@ App.loadFriends = function(data) {
 								
 				console.log(rgb);
 		
-				d = '<div class="tile" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ');"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span><br/>'+
-				'<span class="color-name">'+name+'</span>'
-				+'</div>';
+				d = $('<div></div>');
+				d.addClass('tile'); 
+				d.css('background-color','rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
+				
+				pn = $('<div></div>');
+				pn.addClass('profile-name');
+				pn.text($(this).attr('data-name'));
+				
+				cn = $('<div></div>')
+				cn.addClass('color-name');
+				cn.text(name);
+                
+                d.append(pn);
+                d.append(cn);
+				
+                // '<div class="tile" style="width:100%; height: 100%; background-color:;"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span><br/>'+
+                // '<span class="color-name">'+name+'</span>'
+                // +'</div>';
 			
 				$(this)
 					.parent()

@@ -18,7 +18,7 @@ App.start = function() {
 };
 
 App.loadFriends = function(data) {
-	var PAGE_LIMIT = 32;
+	var PAGE_LIMIT = 48;
 	var count = data.length;
 	var page = Math.min(count, PAGE_LIMIT);
 

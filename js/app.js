@@ -29,6 +29,9 @@ App.loadFriends = function(data) {
 	var PAGE_LIMIT = 48;
 	var count = data.length;
 	var page = Math.min(count, PAGE_LIMIT);
+	
+	//Todo: check to see if the currentIndex is < the data size (so we don't run off the edge)
+	page = Math.min(page, data.length - App.currentIndex); //I think this works, but never ran off the edge
 
 	var container = $('#container');
 	for (var i = 0 + App.currentIndex; i < page + App.currentIndex; i++) {

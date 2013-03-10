@@ -30,11 +30,59 @@ App.loadFriends = function(data) {
 			var img = $('<img class="profile-image facebook-image"/>');
 			img.attr('data-name', data[i].name);
 			img.attr('data-image-url', data[i].data_img_url);
-			img.attr('src', data[i].src);
+			
+			img.load(function(img){
+				
+			 	console.log(this);
+					
+				rgb = Util.getAverageRGB($(this)[0]);
+				console.log(rgb);
+		
+				d = '<div class="tile" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ');"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span></div>';
+			
+				$(this)
+					.parent()
+					.append(d);
 
+				var tile = $(this)
+					.parent()
+					.find('.tile');
+			
+				var photo = $(this)
+					.parent()
+					.find('.profile-image.facebook-image');
+
+				tile.mouseover(function() {
+
+					$('.tile')
+						.show();
+
+					$(this)
+						.hide();
+
+					photo.mouseout(function() {
+						tile.show();
+					});
+
+				});
+
+				$(this)
+					.parent()
+					.attr('data-r', rgb.r);
+				$(this)
+					.parent()
+					.attr('data-g', rgb.g);
+				$(this)
+					.parent()
+					.attr('data-b', rgb.b);
+				
+			});
+			
 			var div = $('<div class="item"></div>');
 
 			div.append(img);
+
+			img.attr('src', data[i].src);
 
 			container.append(div);
 		} else {
@@ -71,52 +119,6 @@ App.useFacebook = function() {
 App.gridify = function() {
 
 	var $container = $('#container');
-
-	$('.profile-image.facebook-image')
-		.each(function() {
-		rgb = Util.getAverageRGB($(this)[0]);
-		console.log(rgb);
-		
-		d = '<div class="tile" style="width:100%; height: 100%; background-color:rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ');"><span align="center" class="profile-name">' + $(this).attr('data-name') + '</span></div>';
-			
-		$(this)
-			.parent()
-			.append(d);
-
-		var tile = $(this)
-			.parent()
-			.find('.tile');
-			
-		var photo = $(this)
-			.parent()
-			.find('.profile-image.facebook-image');
-
-		tile.mouseover(function() {
-
-			$('.tile')
-				.show();
-
-			$(this)
-				.hide();
-
-			photo.mouseout(function() {
-				tile.show();
-			});
-
-		});
-
-		$(this)
-			.parent()
-			.attr('data-r', rgb.r);
-		$(this)
-			.parent()
-			.attr('data-g', rgb.g);
-		$(this)
-			.parent()
-			.attr('data-b', rgb.b);
-
-	});
-
 
 	$container
 		.isotope({

@@ -31,11 +31,11 @@ App.toggleScale = function(div){
 };
 
 App.scaleDown = function(div){
-	div.parent().animate({height:102},100);
-	div.parent().animate({width:102},100);
-	div.parent().find('img').animate({width:102},100);
-	div.parent().find('img').animate({height:102},100);
-	div.parent().find('.tile').css('margin-top', '-102px');
+	div.parent().animate({height:100},100);
+	div.parent().animate({width:100},100);
+	div.parent().find('img').animate({width:100},100);
+	div.parent().find('img').animate({height:100},100);
+	div.parent().find('.tile').css('margin-top', 'auto');
 	div.parent().removeAttr('data-scaled');
 
 	setTimeout(function(){

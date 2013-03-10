@@ -53,7 +53,7 @@ function facebookInit() {
 				console.log('We are in.');
 			});
 
-			FB.api('/me/friends',function(response){App.loadFriends(response.data);});
+			FB.api('/me/friends', Facebook.processFriendApi);
 
 		} else {
 			console.log('User cancelled login or did not fully authorize.');
@@ -62,6 +62,13 @@ function facebookInit() {
 		scope: ''
 	});
 };
+
+Facebook.processFriendApi = function(response)
+{
+    App.currentIndex = 0;
+    App.cachedData = response.data;
+    App.loadFriends(response.data);
+}
 
 Facebook.parseData = function(response) {
 	var data = [];

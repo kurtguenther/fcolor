@@ -1,4 +1,7 @@
-var App = {};
+var App = {
+    currentIndex : 0,
+    cachedData : []
+};
 
 App.start = function() {
 	
@@ -17,13 +20,18 @@ App.start = function() {
 
 };
 
+App.loadMore = function(data)
+{
+    App.loadFriends(App.cachedData);
+}
+
 App.loadFriends = function(data) {
 	var PAGE_LIMIT = 48;
 	var count = data.length;
 	var page = Math.min(count, PAGE_LIMIT);
 
 	var container = $('#container');
-	for (var i = 0; i < page; i++) {
+	for (var i = 0 + App.currentIndex; i < page + App.currentIndex; i++) {
 		var profile_id = data[i]['id'];
 
 		if (profile_id && profile_id != '') {
@@ -109,15 +117,20 @@ App.loadFriends = function(data) {
 
 			container.append(div);
 
-			// cfriel - can do this to asynchronously add items to isotope
-			// might run into race conditions	
-			// var $newItems = div;
-			// $('#container').isotope( 'insert', $newItems );
+            if(App.currentIndex > 0)
+            {
+    			// cfriel - can do this to asynchronously add items to isotope
+    			// might run into race conditions	
+                var $newItems = div;
+    			$('#container').isotope( 'insert', $newItems );    
+            }
 
 		} else {
 			console.log('skipping user:' + data[i])
 		}
 	}
+	
+	App.currentIndex += page;
 };
 
 App.hideContainer = function(){

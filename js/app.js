@@ -75,6 +75,8 @@ App.loadFriends = function(data) {
 				$(this)
 					.parent()
 					.attr('data-b', rgb.b);
+					
+				
 				
 			});
 			
@@ -85,6 +87,12 @@ App.loadFriends = function(data) {
 			img.attr('src', data[i].src);
 
 			container.append(div);
+
+			// cfriel - can do this to asynchronously add items to isotope
+			// might run into race conditions	
+			// var $newItems = div;
+			// $('#container').isotope( 'insert', $newItems );
+
 		} else {
 			console.log('skipping user:' + data[i])
 		}

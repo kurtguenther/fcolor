@@ -1,23 +1,59 @@
 var App = {
     currentIndex : 0,
-    cachedData : []
+    cachedData : [],
+    container : null
 };
 
 App.start = function() {
 	
 	App.hideContainer();
-
+	
+	App.gridify(); 
+	App.hideLoading(); 
+	App.showContainer();
+	
 	if (App.testMode()) {
 		var data = Test.generateData();
 		App.loadFriends(data);
 	}
+
+};
+
+App.toggleScale = function(div){
+	if(div.parent().attr('data-scaled') == 'true')
+	{
+		App.scaleDown(div);
+	}
+	else
+	{
+		App.scaleUp(div);
+	}
+};
+
+App.scaleDown = function(div){
+	div.parent().animate({height:102},100);
+	div.parent().animate({width:102},100);
+	div.parent().find('img').animate({width:102},100);
+	div.parent().find('img').animate({height:102},100);
+	div.parent().find('.tile').css('margin-top', '-102px');
+	div.parent().removeAttr('data-scaled');
+
+	setTimeout(function(){
+		App.container.isotope('reLayout', function(){});	
+	}, 500);
+};
+
+App.scaleUp = function(div){
+	div.parent().animate({height:308},100);
+	div.parent().animate({width:308},100);
+	div.parent().find('img').animate({width:308},100);
+	div.parent().find('img').animate({height:308},100);
+	div.parent().find('.tile').css('margin-top', '-208px');
+	div.parent().attr('data-scaled','true');
 	
 	setTimeout(function(){
-		App.gridify(); 
-		App.hideLoading(); 
-		App.showContainer();
-	}, 0);
-
+		App.container.isotope('reLayout', function(){});	
+	}, 500);
 };
 
 App.loadMore = function(data)
@@ -44,7 +80,7 @@ App.loadFriends = function(data) {
 			
 			img.load(function(img){
 				
-			 	console.log(this);
+			 	//console.log(this);
 					
 				rgb = Util.getAverageRGB($(this)[0]);
 				
@@ -53,7 +89,7 @@ App.loadFriends = function(data) {
 				var hex = Util.rgbToHex(rgb.r, rgb.g, rgb.b);
 				var name = Util.colorName(hex);
 								
-				console.log(rgb);
+				//console.log(rgb);
 		
 				d = $('<div></div>');
 				d.addClass('tile'); 
@@ -67,8 +103,8 @@ App.loadFriends = function(data) {
 				cn.addClass('color-name');
 				cn.text(name);
                 
-                d.append(pn);
-                d.append(cn);
+                		d.append(pn);
+                		d.append(cn);
 			
 				$(this)
 					.parent()
@@ -95,6 +131,10 @@ App.loadFriends = function(data) {
 					});
 
 				});
+				
+				photo.click(function(){
+					App.toggleScale($(this));
+				});
 
 				$(this)
 					.parent()
@@ -119,15 +159,15 @@ App.loadFriends = function(data) {
 					.attr('data-l', hsl.l);
 					
 
-    			//updated the sort on this
-                $('#container').isotope('updateSortData', $('#container').find('.item'));
+    				//updated the sort on this
+                		$('#container').isotope('updateSortData', $('#container').find('.item'));
 			});
 			
 			var div = $('<div class="item"></div>');
 
 			div.append(img);
 
-            var proxy_src = '/get/img/?img_url=' + escape('http://graph.facebook.com/' + profile_id + '/picture?width=100&height=100')
+           	    	var proxy_src = '/get/img/?img_url=' + escape('http://graph.facebook.com/' + profile_id + '/picture?width=100&height=100')
 			img.attr('src', proxy_src);
 
 			container.append(div);
@@ -138,11 +178,11 @@ App.loadFriends = function(data) {
     			// might run into race conditions	
                 var $newItems = div;
     			$('#container').isotope('insert', $newItems);
-    			console.log('calling insert');
+    			//console.log('calling insert');
             }
 
 		} else {
-			console.log('skipping user:' + data[i])
+			//console.log('skipping user:' + data[i])
 		}
 	}
 	
@@ -178,11 +218,12 @@ App.useFacebook = function() {
 App.gridify = function() {
 
 	var $container = $('#container');
+	
+	App.container = $container;
 
 	$container
 		.isotope({
 		itemSelector: '.item',
-		layoutMode: 'fitRows',
 		getSortData: {
 			red: function($elem) {
 				r = parseFloat($elem.attr('data-r'));

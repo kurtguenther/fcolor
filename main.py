@@ -18,6 +18,7 @@
 import logging
 import webapp2
 import os
+import datetime
 import json
 
 from google.appengine.ext.webapp import template
@@ -47,9 +48,15 @@ class ImageProxy(webapp2.RequestHandler):
         logging.info('fetching url: %s' % url);
         result = urlfetch.fetch(url)
         
-        if result.status_code == 200:
+        if result.status_code == 200:      
+            thirty_days_in_seconds = 4320000
+            expires_date = datetime.datetime.now() + datetime.timedelta(days=30)
+            HTTP_HEADER_FORMAT = "%a, %d %b %Y %H:%M:00 GMT"        
+            self.response.headers["Expires"] = expires_date.strftime(HTTP_HEADER_FORMAT)
+            self.response.headers["Cache-Control"] = "public, max-age=%s" % thirty_days_in_seconds
             self.response.headers['Content-Type'] = 'image/png'
             self.response.out.write(result.content)
+            
         else:
             self.response.set_status(500)
             self.response.out.write(json.dumps({'error': 'fail'}))

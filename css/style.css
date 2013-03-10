@@ -69,6 +69,50 @@
         margin-top: 5px;
 }
 
+#container{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+@media screen and (max-width:1200px)
+{
+	#container{
+		width:1048px;
+	}
+}
+@media screen and (max-width:1000px)
+{
+	#container{
+		width:840px;
+	}
+}
+@media screen and (max-width:800px)
+{
+	#container{
+		width:628px;
+	}
+}
+@media screen and (max-width:600px)
+{
+	#container{
+		width:420px;
+	}
+}
+@media screen and (max-width:400px)
+{
+	#container{
+		width:212px;
+	}
+}
+
+
+
+
+
+
+
+
 #loading
 {
 	position: absolute;

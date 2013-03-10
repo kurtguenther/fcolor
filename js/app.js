@@ -131,7 +131,7 @@ App.loadFriends = function(data) {
 
 			container.append(div);
 
-            if(App.currentIndex > 0)
+            if(App.currentIndex > -1)
             {
     			// cfriel - can do this to asynchronously add items to isotope
     			// might run into race conditions	

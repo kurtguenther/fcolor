@@ -1,5 +1,9 @@
 var Facebook = {};
 
+$(document).ready(function(){
+   $("#login_button").click(facebookInit);
+});
+
 window.fbAsyncInit = function() {
 	FB.init({
 		appId: '277386932393277',
@@ -9,10 +13,19 @@ window.fbAsyncInit = function() {
 	});
 	
 	if (typeof facebookInit == 'function' && App.useFacebook()) {
-	      	console.log('calling facebook init');
-	            facebookInit();
-	      	console.log('called facebook init');
-		
+	      	console.log('checking facebook status');
+            
+            FB.getLoginStatus(function(response) {
+              if (response.status === 'connected') {
+                    console.log('already logged in');
+                    facebookInit();
+                }
+              else
+              {
+                  console.log('was not logged in on start');
+                  $("#login_panel").show();
+              }
+            });
 	}
 };
 
@@ -35,11 +48,12 @@ function facebookInit() {
 			var access_token = FB.getAuthResponse()['accessToken'];
 
 			//check that we're in.
-			console.log('Access Token = ' + access_token);
 			FB.api('/me', function(response) {
 				console.log('Good to see you, ' + response.name + '.');
 				console.log('We are in.');
 			});
+			
+			$("#login_panel").hide();
 
 			FB.api('/me/friends', Facebook.processFriendApi);
 

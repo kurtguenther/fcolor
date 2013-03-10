@@ -1,5 +1,6 @@
 # pyc file
 *.pyc
+.DS_Store
 
 # C extensions
 *.so

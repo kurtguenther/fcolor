@@ -9,6 +9,7 @@ App.start = function() {
 	App.hideContainer();
 	
 	App.gridify(); 
+	App.bindSearch();
 	App.hideLoading(); 
 	App.showContainer();
 	
@@ -17,6 +18,45 @@ App.start = function() {
 		App.loadFriends(data);
 	}
 
+};
+
+App.bindSearch = function(){
+	
+	// case insensitive jquery contains selector
+	$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+	    return function( elem ) {
+	        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+	    };
+	});
+
+	var delay = (function(){
+	  var timer = 0;
+	  return function(callback, ms){
+	    clearTimeout (timer);
+	    timer = setTimeout(callback, ms);
+	  };
+	})();
+
+	
+	$('#search').keyup(function() {
+	    delay(function(){
+		    
+		    var val = $('#search').val();
+		    
+		    var selector = ".item";
+
+		    if(val == '')
+		    {
+			selector = ".item";
+		    }
+		    else
+		    {
+		    	selector = ".item:contains('"+$('#search').val()+"')";
+		    }
+		    
+		    App.container.isotope({filter: selector});
+	    }, 1000 );
+	});	
 };
 
 App.toggleScale = function(div){

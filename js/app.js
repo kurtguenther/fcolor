@@ -46,8 +46,16 @@ App.scaleDown = function(div){
 App.scaleUp = function(div){
 	div.parent().animate({height:308},100);
 	div.parent().animate({width:308},100);
+	
+	var profileId = div.parent().find('img').attr('data-profile-id');
+	var src = 'http://graph.facebook.com/' + profileId + '/picture?width=300&height=300';
+	var img = div.parent().find('img');
+	img.unbind('load');
+	img.attr('src', src);
+	
 	div.parent().find('img').animate({width:308},100);
 	div.parent().find('img').animate({height:308},100);
+	
 	div.parent().find('.tile').css('margin-top', '-208px');
 	div.parent().attr('data-scaled','true');
 	
@@ -77,6 +85,7 @@ App.loadFriends = function(data) {
 			var img = $('<img class="profile-image facebook-image"/>');
 			img.attr('data-name', data[i].name);
 			img.attr('data-image-url', data[i].data_img_url);
+			img.attr('data-profile-id', profile_id);
 			
 			img.load(function(img){
 				
